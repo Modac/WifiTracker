@@ -1,0 +1,178 @@
+package com.modac.wifitracker;
+
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+
+import com.modac.wifitracker.listeners.RecordButtonClickListener;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ListView listView;
+    private ListAdapter listAdapter;
+    private int[] imageListArray = {R.drawable.ic_my_location_black_24dp, R.drawable.ic_view_headline_black_24dp, R.drawable.ic_view_headline_black_24dp};
+    private String fragArray[] = {"Where", "APs", "Records"};
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    private String activityTitle;
+
+    private FloatingActionButton fab;
+
+    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+
+    private static final String TAG = "MainActivity";
+
+    public static MainActivity instance;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        instance = this;
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        activityTitle = getTitle().toString();
+
+        listView = (ListView) findViewById(R.id.navList);
+        listAdapter = new ImageAdapter(this, R.layout.image_list_item, R.id.imageListItemMainImage, imageListArray, R.id.imageListItemMainText, fragArray);
+        listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(new NavClickListener());
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        setupDrawer();
+
+        FragmentManager fragMan = getSupportFragmentManager();
+        fragMan.beginTransaction().replace(R.id.relLayMain, new WhereFragment()).commit();
+
+        drawerLayout.closeDrawers();
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new RecordButtonClickListener(this));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+        }
+
+    }
+
+    private void setupDrawer(){
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                R.string.drawer_open, R.string.drawer_close) {
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle(R.string.title_drawer_open);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(activityTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        drawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.addDrawerListener(drawerToggle);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_COARSE_LOCATION: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "coarse location permission granted");
+                } else {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Functionality limited");
+                    builder.setMessage("Since location access has not been granted, this app will not be able to discover beacons when in the background.");
+                    builder.setPositiveButton(android.R.string.ok, null);
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                        }
+
+                    });
+                    builder.show();
+                }
+                return;
+            }
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Activate the navigation drawer toggle
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    private class NavClickListener implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Fragment frag;
+            switch (position) {
+                case 0:
+                    frag = new WhereFragment();
+                    break;
+                case 1:
+                    frag = new ApListFragment();
+                    break;
+                case 2:
+                    frag = new RecordsFragment();
+                    break;
+                default:
+                    frag = new WhereFragment();
+            }
+
+            FragmentManager fragMan = getSupportFragmentManager();
+            fragMan.beginTransaction().replace(R.id.relLayMain, frag).commit();
+
+            drawerLayout.closeDrawers();
+        }
+    }
+
+    /*void snackbar(String msg){
+        Snackbar.make(drawerLayout, "Already recording", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }*/
+}
