@@ -11,4 +11,6 @@
     <string name="imageListItemDescription">Image View</string>
     <string name="roomTextFieldText">room</string>
     <string name="the_name_of_the_recording">The name of the recording</string>
+    <string name="thereTextViewText">There:</string>
+    <string name="whereButtonText">Where</string>
 </resources>

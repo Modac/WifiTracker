@@ -14,8 +14,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="There:"
-            android:id="@+id/textView"
+            android:text="@string/thereTextViewText"
+            android:id="@+id/thereTextView"
             android:layout_marginTop="106dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
@@ -25,16 +25,18 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView2"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/thereTextView"
             android:layout_centerHorizontal="true" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Where"
-            android:id="@+id/button"
+            android:text="@string/whereButtonText"
+            android:id="@+id/whereButton"
             android:layout_below="@+id/textView2"
             android:layout_centerHorizontal="true"
             android:elevation="24dp"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:background="@drawable/button" />
+
  </RelativeLayout>

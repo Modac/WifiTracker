@@ -28,7 +28,7 @@ public class WhereFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_where, container, false);
-        Button whereButton = (Button) view.findViewById(R.id.button);
+        Button whereButton = (Button) view.findViewById(R.id.whereButton);
         whereButton.setOnClickListener(new WhereButtonClickListener((TextView) view.findViewById(R.id.textView2), whereButton));
         return view;
     }

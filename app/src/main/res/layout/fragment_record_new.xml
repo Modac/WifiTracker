@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="5"
-        android:background="@android:color/holo_blue_bright"
+        android:background="@color/colorPrimaryDark"
         android:layout_margin="0dp">
 
         <EditText
@@ -38,7 +38,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             tools:ignore="RelativeOverlap"
-            android:elevation="24dp" />
+            android:elevation="24dp"
+            android:background="@drawable/button"/>
 
 
     </RelativeLayout>
