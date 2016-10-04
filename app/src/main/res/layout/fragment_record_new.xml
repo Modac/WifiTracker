@@ -1,45 +1,56 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.modac.wifitracker.RecordNewFragment">
-
+    tools:context="com.modac.wifitracker.RecordNewFragment"
+    android:orientation="vertical"
+    android:layout_margin="0dp"
+    android:padding="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="right|center_vertical">
+        android:layout_weight="5"
+        android:background="@android:color/holo_blue_bright"
+        android:layout_margin="0dp">
 
         <EditText
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/roomTextField"
-            android:layout_marginTop="77dp"
-            android:text="room"
-            android:layout_marginLeft="71dp"
-            android:layout_marginStart="71dp"
-            android:minWidth="100dp"
-            android:layout_alignParentTop="true"
+            android:text="@string/roomTextFieldText"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_alignBottom="@+id/recButton"
+            android:layout_width="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:inputType="textNoSuggestions"
+            android:minWidth="150dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/recButtonStart"
             android:id="@+id/recButton"
-            android:layout_alignBottom="@+id/roomTextField"
+            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="44dp"
-            android:layout_marginEnd="44dp" />
+            tools:ignore="RelativeOverlap"
+            android:elevation="24dp" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/roomTextField"
-            android:id="@+id/newRecInnerRelLay"></RelativeLayout>
 
     </RelativeLayout>
-</FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/newRecInnerRelLay"
+        android:background="@drawable/shadow"
+        android:layout_weight="1"
+        android:elevation="0dp">
+
+    </RelativeLayout>
+
+</LinearLayout>
