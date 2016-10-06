@@ -4,7 +4,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.modac.wifitracker.logic.AlreadyTrackingException;
 import com.modac.wifitracker.logic.RoomTrackRecord;
 import com.modac.wifitracker.logic.TrackManager;
 
@@ -15,8 +14,8 @@ import java.util.Map;
  */
 public class WhereButtonClickListener implements View.OnClickListener {
 
-    TextView textView;
-    Button button;
+    private TextView textView;
+    private Button button;
 
     public WhereButtonClickListener(TextView textView, Button button){
         this.textView=textView;
@@ -41,12 +40,8 @@ public class WhereButtonClickListener implements View.OnClickListener {
             }
         }).run();
         */
-        try {
 
-            setResult(TrackManager.getInstance(null).track());
-        } catch (AlreadyTrackingException e) {
-            e.printStackTrace();
-        }
+        setResult(TrackManager.getInstance().track());
     }
 
     private void setResult(Map<RoomTrackRecord, Double> map){

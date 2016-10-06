@@ -1,11 +1,11 @@
 package com.modac.wifitracker.logic;
 
 /**
- * Created by Keller2 on 23.06.2016.
+ * Created by Pascal Goldbrunner
  */
 public class AlreadyTrackingException extends Exception {
 
-    public AlreadyTrackingException(){
+    AlreadyTrackingException(){
         super("TrackManager is already recording");
     }
 }

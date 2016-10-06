@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +23,8 @@ import java.util.List;
  */
 public class ApListFragment extends Fragment {
 
-    ScanReceiver receiver;
-    TextView apListView;
+    private ScanReceiver receiver;
+    private TextView apListView;
 
 
     public ApListFragment() {
@@ -39,12 +38,6 @@ public class ApListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ap_list, container, false);
         apListView = (TextView) view.findViewById(R.id.apListView);
         return view;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -66,7 +59,7 @@ public class ApListFragment extends Fragment {
         super.onResume();
     }
 
-    public void updateApList(List<ScanResult> scanResults){
+    private void updateApList(List<ScanResult> scanResults){
         apListView.setText(WifiUtils.formatScanResults(scanResults));
     }
 }

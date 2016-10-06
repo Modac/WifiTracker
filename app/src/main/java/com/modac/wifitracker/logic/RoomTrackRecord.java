@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Keller2 on 23.06.2016.
+ * Created by Pascal Goldbrunner
  */
 public class RoomTrackRecord extends TrackRecord {
 
@@ -37,7 +37,7 @@ public class RoomTrackRecord extends TrackRecord {
     @Deprecated
     public static RoomTrackRecord deserialize(String string) throws InvalidParameterException {
         String[] parts = string.split(Strings.RTR_SERIALIZE_FIELD_SPACER);
-        if (parts.length != 2 || !hasQuotes(parts[0])) {
+        if (parts.length != 2 || noQuotes(parts[0])) {
             throw new InvalidParameterException("Invalid string of serialized RoomTrackRecord");
         }
 

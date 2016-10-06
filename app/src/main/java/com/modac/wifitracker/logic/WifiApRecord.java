@@ -16,7 +16,7 @@ class WifiApRecord {
     private List<Integer> levels;
 
 
-    private WifiApRecord(boolean active, String BSSID, String SSID, List<Integer> levels){
+    private WifiApRecord(@SuppressWarnings("SameParameterValue") boolean active, String BSSID, String SSID, List<Integer> levels){
         this.active = active;
         this.BSSID=BSSID;
         this.SSID=SSID;
@@ -73,9 +73,9 @@ class WifiApRecord {
         String[] fields = string.split(Strings.WAR_SERIALIZE_FIELD_SPACER);
 
         if (fields.length != 3
-                || !hasQuotes(fields[0])
-                || !hasQuotes(fields[1])
-                || !hasQuotes(fields[2])) {
+                || noQuotes(fields[0])
+                || noQuotes(fields[1])
+                || noQuotes(fields[2])) {
             throw new InvalidParameterException("Invalid string of serialized TrackRecord");
         }
 
@@ -93,8 +93,8 @@ class WifiApRecord {
         return string.substring(1, string.length() - 1);
     }
 
-    private static boolean hasQuotes(String string){
-        return string.startsWith("'") && string.endsWith("'");
+    private static boolean noQuotes(String string){
+        return !string.startsWith("'") || !string.endsWith("'");
     }
 
 }

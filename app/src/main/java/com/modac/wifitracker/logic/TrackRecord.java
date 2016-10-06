@@ -78,7 +78,7 @@ public class TrackRecord {
     }
 
     @Deprecated
-    public String serialize() {
+    String serialize() {
         String res = "'" + accuracy + "'" + Strings.TR_SERIALIZE_FIELD_SPACER + "'";
         boolean first = true;
         for (WifiApRecord wifiApRecord : wifiApRecords) {
@@ -95,11 +95,12 @@ public class TrackRecord {
         String[] fields = string.split(Strings.TR_SERIALIZE_FIELD_SPACER);
 
         if (fields.length != 2
-                || !hasQuotes(fields[0])
-                || !hasQuotes(fields[1])) {
+                || noQuotes(fields[0])
+                || noQuotes(fields[1])) {
             throw new InvalidParameterException("Invalid string of serialized TrackRecord");
         }
 
+        //noinspection UnusedAssignment
         double acc = Double.valueOf(trimQuotes(fields[0]));
 
         String[] parts = trimQuotes(fields[1]).split(Strings.TR_SERIALIZE_LIST_ITEM_SPACER);
@@ -115,7 +116,7 @@ public class TrackRecord {
         return string.substring(1, string.length() - 1);
     }
 
-    static boolean hasQuotes(String string){
-        return string.startsWith("'") && string.endsWith("'");
+    static boolean noQuotes(String string){
+        return !string.startsWith("'") || !string.endsWith("'");
     }
 }

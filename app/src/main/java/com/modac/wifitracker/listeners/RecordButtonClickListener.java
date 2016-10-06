@@ -8,11 +8,11 @@ import com.modac.wifitracker.R;
 import com.modac.wifitracker.RecordNewFragment;
 
 /**
- * Created by Keller2 on 23.06.2016.
+ * Created by Pascal Goldbrunner
  */
 public class RecordButtonClickListener implements View.OnClickListener {
 
-    AppCompatActivity activity;
+    private AppCompatActivity activity;
 
     public RecordButtonClickListener(AppCompatActivity activity){
         this.activity=activity;

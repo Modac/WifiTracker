@@ -44,7 +44,7 @@ public class TrackManager {
     private static final double DEFAULT_MAXIMUM_DISTANCE = 10.0;
     private static final String DEFAULT_RECORDS_FILE =  "records.json";
 
-    private TrackManager(AppCompatActivity activity){
+    private TrackManager(){
         this.activity = MainActivity.instance;
         savedRecords = new HashSet<>();
         updateLoadedRecords();
@@ -54,11 +54,11 @@ public class TrackManager {
         return savedRecords;
     }
 
-    public Map<RoomTrackRecord, Double> track() throws AlreadyTrackingException {
+    public Map<RoomTrackRecord, Double> track() {
         return track(DEFAULT_MAXIMUM_DISTANCE);
     }
 
-    private Map<RoomTrackRecord, Double> track(double distance) throws AlreadyTrackingException {
+    private Map<RoomTrackRecord, Double> track(@SuppressWarnings("SameParameterValue") double distance) {
 
         TrackRecord tr = new TrackRecord();
         /*
@@ -83,7 +83,7 @@ public class TrackManager {
         return track(record, DEFAULT_MAXIMUM_DISTANCE);
     }
 
-    private Map<RoomTrackRecord, Double> track(TrackRecord record, double distance){
+    private Map<RoomTrackRecord, Double> track(TrackRecord record, @SuppressWarnings("UnusedParameters") double distance) {
         //Log.d("TM", "track4");
         Map<RoomTrackRecord, Double> resMap = new HashMap<>();
         for (RoomTrackRecord rtr : savedRecords){
@@ -116,14 +116,17 @@ public class TrackManager {
         recording = false;
     }
 
+    /*
     public void update(String room){
-// TODO: 24.06.2016
+        // TODO: 24.06.2016
     }
+    */
 
     private void updateLoadedRecords() {
         savedRecords.clear();
         File file = new File(activity.getFilesDir(), DEFAULT_RECORDS_FILE);
         try {
+            //noinspection ResultOfMethodCallIgnored
             file.createNewFile();
             FileInputStream fis = activity.openFileInput(DEFAULT_RECORDS_FILE);
             InputStreamReader isr = new InputStreamReader(fis);
@@ -182,9 +185,9 @@ public class TrackManager {
         }
     }
 
-    public static TrackManager getInstance(AppCompatActivity activity){
+    public static TrackManager getInstance(){
         if (instance==null)
-            instance = new TrackManager(activity);
+            instance = new TrackManager();
         return instance;
     }
 }

@@ -4,15 +4,12 @@ package com.modac.wifitracker;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 
 import com.modac.wifitracker.logic.AlreadyTrackingException;
 import com.modac.wifitracker.logic.RoomTrackRecord;
@@ -60,19 +57,20 @@ public class RecordNewFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            TrackManager trackManager = TrackManager.getInstance(activity);
+            TrackManager trackManager = TrackManager.getInstance();
             if(!recording){
                 try {
                     trackRecord = trackManager.startRecord();
                     toActive();
                     recording = true;
                 } catch (AlreadyTrackingException e) {
+                    //noinspection ConstantConditions
                     Snackbar.make(getView(), "Already tracking", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
 
             } else {
-                toUnactive();
+                toInactive();
                 trackManager.stopRecord();
                 recording = false;
                 trackManager.addRoomTrackRecord(new RoomTrackRecord(roomTextField.getText().toString(), trackRecord.getWifiApRecords()));
@@ -85,7 +83,7 @@ public class RecordNewFragment extends Fragment {
         recButton.setText(R.string.recButtonStop);
     }
 
-    private void toUnactive(){
+    private void toInactive(){
         roomTextField.setEnabled(true);
         recButton.setText(R.string.recButtonStart);
     }

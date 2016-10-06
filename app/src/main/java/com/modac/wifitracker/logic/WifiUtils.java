@@ -10,7 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Created by Keller2 on 23.06.2016.
+ * Created by Pascal Goldbrunner
  */
 public class WifiUtils {
 

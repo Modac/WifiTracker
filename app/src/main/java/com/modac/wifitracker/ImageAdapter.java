@@ -22,7 +22,7 @@ import java.util.List;
  *
  */
 class ImageAdapter extends BaseAdapter {
-    private String TAG = getClass().getSimpleName();
+    private final String TAG = getClass().getSimpleName();
 
     private final Context context;
     private int resource;
@@ -31,6 +31,7 @@ class ImageAdapter extends BaseAdapter {
     private int textViewRes;
     private List<String> lines;
 
+    @SuppressWarnings("SameParameterValue")
     ImageAdapter(Context context, @LayoutRes int resource, @IdRes int imageViewRes, int[] imageResIds, @IdRes int textViewRes, String[] lines){
         if (imageResIds.length!=lines.length) throw new InvalidParameterException("Both arrays must have equal amount of items.");
 
@@ -88,8 +89,8 @@ class ImageAdapter extends BaseAdapter {
     }
 
     private static class Entry {
-        private int imageId;
-        private String line;
+        private final int imageId;
+        private final String line;
 
         Entry(int imageId, String line){
             this.imageId=imageId;
