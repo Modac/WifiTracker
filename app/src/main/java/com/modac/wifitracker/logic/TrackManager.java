@@ -131,8 +131,6 @@ public class TrackManager {
             FileInputStream fis = activity.openFileInput(DEFAULT_RECORDS_FILE);
             InputStreamReader isr = new InputStreamReader(fis);
 
-            Log.d(TAG, "updateLoadedRecords mid");
-
             Gson gson = new Gson();
             Type savedRecordsType = new TypeToken<Set<RoomTrackRecord>>(){}.getType();
 
@@ -140,30 +138,14 @@ public class TrackManager {
             if(rtrSet!=null){
                 savedRecords.addAll(rtrSet);
             }
-
-            /*
-            String line;
-            while ((line=br.readLine())!=null){
-                Log.d(TAG, line);
-                try {
-                    savedRecords.add(RoomTrackRecord.deserialize(line));
-                } catch (InvalidParameterException e) {
-                    Log.w(TAG, "Ignoring line of wrong format");
-                    e.printStackTrace();
-                }
-
-            }
-            */
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d(TAG, "updateLoadedRecords end");
     }
 
     public void addRoomTrackRecord(RoomTrackRecord record){
 
         savedRecords.add(record);
-
 
         try {
             //FileOutputStream fos = activity.openFileOutput(DEFAULT_RECORDS_FILE, AppCompatActivity.MODE_PRIVATE);
@@ -173,12 +155,6 @@ public class TrackManager {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(savedRecords, w);
             Log.d(TAG, gson.toJson(savedRecords));
-            /*
-            String serialize = record.serialize();
-            //Log.d(TAG, serialize);
-            bw.write(serialize + "\n");
-            bw.flush();
-            */
             w.close();
         } catch (IOException e) {
             e.printStackTrace();

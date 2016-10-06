@@ -3,6 +3,7 @@ package com.modac.wifitracker.logic;
 /**
  * Created by Pascal Goldbrunner
  */
+@Deprecated
 class Strings {
 
     static final String TR_SERIALIZE_FIELD_SPACER = "_=_";

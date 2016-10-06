@@ -38,4 +38,14 @@
             android:layout_margin="10dp"
             android:background="@drawable/button" />
 
+     <Button
+         android:text="Button"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignTop="@+id/whereButton"
+         android:layout_toRightOf="@+id/whereButton"
+         android:layout_toEndOf="@+id/whereButton"
+         android:id="@+id/button"
+         android:background="@color/colorPrimary" />
+
  </RelativeLayout>

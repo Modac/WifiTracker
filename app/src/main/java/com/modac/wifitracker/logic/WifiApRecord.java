@@ -15,7 +15,6 @@ class WifiApRecord {
     //private String frequency;
     private List<Integer> levels;
 
-
     private WifiApRecord(@SuppressWarnings("SameParameterValue") boolean active, String BSSID, String SSID, List<Integer> levels){
         this.active = active;
         this.BSSID=BSSID;
