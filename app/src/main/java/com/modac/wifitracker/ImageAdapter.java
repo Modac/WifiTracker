@@ -1,7 +1,6 @@
 package com.modac.wifitracker;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.util.Log;
@@ -19,9 +18,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Keller2 on 25.06.2016.
+ * Created by Pascal Goldbrunner.
+ *
  */
-public class ImageAdapter extends BaseAdapter {
+class ImageAdapter extends BaseAdapter {
     private String TAG = getClass().getSimpleName();
 
     private final Context context;
@@ -31,7 +31,7 @@ public class ImageAdapter extends BaseAdapter {
     private int textViewRes;
     private List<String> lines;
 
-    public ImageAdapter(Context context, @LayoutRes int resource, @IdRes int imageViewRes, int[] imageResIds, @IdRes int textViewRes, String[] lines){
+    ImageAdapter(Context context, @LayoutRes int resource, @IdRes int imageViewRes, int[] imageResIds, @IdRes int textViewRes, String[] lines){
         if (imageResIds.length!=lines.length) throw new InvalidParameterException("Both arrays must have equal amount of items.");
 
         this.context=context;
@@ -91,16 +91,16 @@ public class ImageAdapter extends BaseAdapter {
         private int imageId;
         private String line;
 
-        public Entry(int imageId, String line){
+        Entry(int imageId, String line){
             this.imageId=imageId;
             this.line=line;
         }
 
-        public int getImageId(){
+        int getImageId(){
             return imageId;
         }
 
-        public String getLine() {
+        String getLine() {
             return line;
         }
     }

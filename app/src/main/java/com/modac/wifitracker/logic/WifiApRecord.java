@@ -1,14 +1,13 @@
 package com.modac.wifitracker.logic;
 
 import java.security.InvalidParameterException;
-import java.security.spec.InvalidParameterSpecException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Keller2 on 23.06.2016.
+ * Created by Pascal Goldbrunner
  */
-public class WifiApRecord {
+class WifiApRecord {
 
     private String BSSID;
     private String SSID;
@@ -16,21 +15,21 @@ public class WifiApRecord {
     private List<Integer> levels;
 
 
-    public WifiApRecord(String BSSID, String SSID, List<Integer> levels){
+    private WifiApRecord(String BSSID, String SSID, List<Integer> levels){
         this.BSSID=BSSID;
         this.SSID=SSID;
         this.levels = levels;
     }
 
-    public WifiApRecord(String BSSID, String SSID){
+    WifiApRecord(String BSSID, String SSID){
         this(BSSID, SSID, new ArrayList<Integer>());
     }
 
-    public String getBSSID() {
+    String getBSSID() {
         return BSSID;
     }
 
-    public String getSSID() {
+    String getSSID() {
         return SSID;
     }
 
@@ -38,15 +37,15 @@ public class WifiApRecord {
         return levels;
     }
 
-    public void addLevel(int level){
+    void addLevel(int level){
         levels.add(level);
     }
 
-    public double getDistance(double level){
+    double getDistance(double level){
         return Math.abs(level - getAvgLevel());
     }
 
-    public double getAvgLevel(){
+    double getAvgLevel(){
         int sum = 0;
         for(int level : levels){
             sum+=level;
@@ -54,7 +53,7 @@ public class WifiApRecord {
         return sum/levels.size();
     }
 
-    public String serialize() {
+    String serialize() {
         String res = "'" + BSSID + "'" + Strings.WAR_SERIALIZE_FIELD_SPACER + "'" + SSID + "'" + Strings.WAR_SERIALIZE_FIELD_SPACER + "'";
         boolean first = true;
         for (int level : levels){
@@ -66,7 +65,7 @@ public class WifiApRecord {
         return res;
     }
 
-    public static WifiApRecord deserialize(String string) throws InvalidParameterException {
+    static WifiApRecord deserialize(String string) throws InvalidParameterException {
         String[] fields = string.split(Strings.WAR_SERIALIZE_FIELD_SPACER);
 
         if (fields.length != 3
@@ -86,11 +85,11 @@ public class WifiApRecord {
         return new WifiApRecord(BSSID, SSID, levels);
     }
 
-    protected static String trimQuotes(String string) {
+    private static String trimQuotes(String string) {
         return string.substring(1, string.length() - 1);
     }
 
-    protected static boolean hasQuotes(String string){
+    private static boolean hasQuotes(String string){
         return string.startsWith("'") && string.endsWith("'");
     }
 

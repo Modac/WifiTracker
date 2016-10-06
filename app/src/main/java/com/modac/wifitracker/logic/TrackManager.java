@@ -1,5 +1,6 @@
 package com.modac.wifitracker.logic;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
@@ -17,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.security.InvalidParameterException;
-import java.security.spec.InvalidParameterSpecException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by Keller2 on 23.06.2016.
+ * Created by Pascal Goldbrunner
  */
 public class TrackManager {
 
@@ -34,6 +34,7 @@ public class TrackManager {
     private AppCompatActivity activity;
 
     private Set<RoomTrackRecord> savedRecords;
+    @SuppressLint("StaticFieldLeak")
     private static TrackManager instance;
     private boolean recording;
 
@@ -56,7 +57,7 @@ public class TrackManager {
         return track(DEFAULT_MAXIMUM_DISTANCE);
     }
 
-    public Map<RoomTrackRecord, Double> track(double distance) throws AlreadyTrackingException {
+    private Map<RoomTrackRecord, Double> track(double distance) throws AlreadyTrackingException {
 
         TrackRecord tr = new TrackRecord();
         /*
@@ -81,7 +82,7 @@ public class TrackManager {
         return track(record, DEFAULT_MAXIMUM_DISTANCE);
     }
 
-    public Map<RoomTrackRecord, Double> track(TrackRecord record, double distance){
+    private Map<RoomTrackRecord, Double> track(TrackRecord record, double distance){
         //Log.d("TM", "track4");
         Map<RoomTrackRecord, Double> resMap = new HashMap<>();
         for (RoomTrackRecord rtr : savedRecords){
@@ -93,7 +94,7 @@ public class TrackManager {
     }
 
     public TrackRecord startRecord() throws AlreadyTrackingException {
-        if (recording==true){
+        if (recording){
             throw new AlreadyTrackingException();
         }
         final TrackRecord tr = new TrackRecord();
@@ -118,7 +119,7 @@ public class TrackManager {
 // TODO: 24.06.2016
     }
 
-    public void updateLoadedRecords() {
+    private void updateLoadedRecords() {
         savedRecords.clear();
         File file = new File(activity.getFilesDir(), DEFAULT_RECORDS_FILE);
         try {

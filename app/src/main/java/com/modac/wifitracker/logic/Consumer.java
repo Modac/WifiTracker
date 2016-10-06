@@ -1,9 +1,9 @@
 package com.modac.wifitracker.logic;
 
 /**
- * Created by Keller2 on 24.06.2016.
+ * Created by Pascal Goldbrunner
  */
 public interface Consumer<T> {
 
-    public void accept(T a);
+    void accept(T a);
 }
