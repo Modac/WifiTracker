@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Keller2 on 23.06.2016.
+ * Created by Pascal Goldbrunner
  */
 public class TrackRecord {
 
@@ -77,6 +77,7 @@ public class TrackRecord {
         return sum;
     }
 
+    @Deprecated
     public String serialize() {
         String res = "'" + accuracy + "'" + Strings.TR_SERIALIZE_FIELD_SPACER + "'";
         boolean first = true;
@@ -89,6 +90,7 @@ public class TrackRecord {
         return res;
     }
 
+    @Deprecated
     static TrackRecord deserialize(String string) throws InvalidParameterException {
         String[] fields = string.split(Strings.TR_SERIALIZE_FIELD_SPACER);
 

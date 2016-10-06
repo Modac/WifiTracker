@@ -55,6 +55,7 @@ class WifiApRecord {
         return sum/levels.size();
     }
 
+    @Deprecated
     String serialize() {
         String res = "'" + BSSID + "'" + Strings.WAR_SERIALIZE_FIELD_SPACER + "'" + SSID + "'" + Strings.WAR_SERIALIZE_FIELD_SPACER + "'";
         boolean first = true;
@@ -67,6 +68,7 @@ class WifiApRecord {
         return res;
     }
 
+    @Deprecated
     static WifiApRecord deserialize(String string) throws InvalidParameterException {
         String[] fields = string.split(Strings.WAR_SERIALIZE_FIELD_SPACER);
 

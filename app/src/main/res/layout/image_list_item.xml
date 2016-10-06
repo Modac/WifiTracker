@@ -2,12 +2,14 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -16,8 +18,10 @@
             android:src="@android:drawable/ic_delete"
             android:layout_centerVertical="true"
             android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+            android:paddingEnd="?android:listPreferredItemPaddingEnd"
             android:contentDescription="@string/imageListItemDescription"
-            android:paddingLeft="?android:attr/listPreferredItemPaddingLeft" />
+            android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
+            android:paddingRight="?android:listPreferredItemPaddingRight" />
 
         <TextView
             android:id="@+id/imageListItemMainText"
@@ -30,7 +34,7 @@
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
             android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
             android:paddingRight="?android:attr/listPreferredItemPaddingRight"
-            android:text="Default"
+            android:text="@string/image_list_item_default_text"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/imageListItemMainImage"
             android:layout_toEndOf="@+id/imageListItemMainImage" />

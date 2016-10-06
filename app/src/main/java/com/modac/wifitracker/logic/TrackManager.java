@@ -7,17 +7,18 @@ import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.modac.wifitracker.MainActivity;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.security.InvalidParameterException;
+import java.io.Writer;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -41,7 +42,7 @@ public class TrackManager {
     private ScanReceiver receiver = null;
 
     private static final double DEFAULT_MAXIMUM_DISTANCE = 10.0;
-    private static final String DEFAULT_RECORDS_FILE =  "records.save";
+    private static final String DEFAULT_RECORDS_FILE =  "records.json";
 
     private TrackManager(AppCompatActivity activity){
         this.activity = MainActivity.instance;
@@ -125,7 +126,19 @@ public class TrackManager {
         try {
             file.createNewFile();
             FileInputStream fis = activity.openFileInput(DEFAULT_RECORDS_FILE);
-            BufferedReader br = new BufferedReader(new InputStreamReader(fis), 2097152);
+            InputStreamReader isr = new InputStreamReader(fis);
+
+            Log.d(TAG, "updateLoadedRecords mid");
+
+            Gson gson = new Gson();
+            Type savedRecordsType = new TypeToken<Set<RoomTrackRecord>>(){}.getType();
+
+            Set<RoomTrackRecord> rtrSet = gson.fromJson(isr, savedRecordsType);
+            if(rtrSet!=null){
+                savedRecords.addAll(rtrSet);
+            }
+
+            /*
             String line;
             while ((line=br.readLine())!=null){
                 Log.d(TAG, line);
@@ -137,21 +150,33 @@ public class TrackManager {
                 }
 
             }
+            */
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.d(TAG, "updateLoadedRecords end");
     }
 
     public void addRoomTrackRecord(RoomTrackRecord record){
 
         savedRecords.add(record);
+
+
         try {
-            FileOutputStream fos = activity.openFileOutput(DEFAULT_RECORDS_FILE, AppCompatActivity.MODE_APPEND);
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+            //FileOutputStream fos = activity.openFileOutput(DEFAULT_RECORDS_FILE, AppCompatActivity.MODE_PRIVATE);
+            //OutputStreamWriter osw = new OutputStreamWriter(fos);
+            Writer w = new FileWriter(new File(activity.getFilesDir(), DEFAULT_RECORDS_FILE));
+
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            gson.toJson(savedRecords, w);
+            Log.d(TAG, gson.toJson(savedRecords));
+            /*
             String serialize = record.serialize();
             //Log.d(TAG, serialize);
             bw.write(serialize + "\n");
             bw.flush();
+            */
+            w.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

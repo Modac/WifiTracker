@@ -1,9 +1,6 @@
 package com.modac.wifitracker.logic;
 
-import android.util.Log;
-
 import java.security.InvalidParameterException;
-import java.security.spec.InvalidParameterSpecException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +11,7 @@ public class RoomTrackRecord extends TrackRecord {
 
     private static String TAG = "RoomTrackRecord";
 
-    protected String room;
+    private String room;
 
 
 
@@ -31,11 +28,13 @@ public class RoomTrackRecord extends TrackRecord {
         return room;
     }
 
+    @Deprecated
     @Override
     public String serialize() {
         return "'" + getRoom() + "'" + Strings.RTR_SERIALIZE_FIELD_SPACER + super.serialize();
     }
 
+    @Deprecated
     public static RoomTrackRecord deserialize(String string) throws InvalidParameterException {
         String[] parts = string.split(Strings.RTR_SERIALIZE_FIELD_SPACER);
         if (parts.length != 2 || !hasQuotes(parts[0])) {
