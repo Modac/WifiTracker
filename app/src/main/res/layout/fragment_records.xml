@@ -10,5 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/recordsListView"
         android:layout_gravity="center"
-        android:choiceMode="none" />
+        android:choiceMode="none"
+        android:divider="?android:listDivider"
+        android:dividerHeight="1dp"/>
 </FrameLayout>

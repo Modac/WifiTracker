@@ -9,20 +9,22 @@ import java.util.List;
  */
 class WifiApRecord {
 
+    private boolean active;
     private String BSSID;
     private String SSID;
     //private String frequency;
     private List<Integer> levels;
 
 
-    private WifiApRecord(String BSSID, String SSID, List<Integer> levels){
+    private WifiApRecord(boolean active, String BSSID, String SSID, List<Integer> levels){
+        this.active = active;
         this.BSSID=BSSID;
         this.SSID=SSID;
         this.levels = levels;
     }
 
     WifiApRecord(String BSSID, String SSID){
-        this(BSSID, SSID, new ArrayList<Integer>());
+        this(true, BSSID, SSID, new ArrayList<Integer>());
     }
 
     String getBSSID() {
@@ -82,7 +84,7 @@ class WifiApRecord {
         for (String levelsPart : levelsParts){
             levels.add(Integer.valueOf(levelsPart));
         }
-        return new WifiApRecord(BSSID, SSID, levels);
+        return new WifiApRecord(true, BSSID, SSID, levels);
     }
 
     private static String trimQuotes(String string) {

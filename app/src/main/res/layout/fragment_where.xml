@@ -35,7 +35,6 @@
             android:id="@+id/whereButton"
             android:layout_below="@+id/textView2"
             android:layout_centerHorizontal="true"
-            android:elevation="24dp"
             android:layout_margin="10dp"
             android:background="@drawable/button" />
 

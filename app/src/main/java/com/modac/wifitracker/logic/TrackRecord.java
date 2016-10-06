@@ -1,10 +1,8 @@
 package com.modac.wifitracker.logic;
 
 import android.net.wifi.ScanResult;
-import android.util.Log;
 
 import java.security.InvalidParameterException;
-import java.security.spec.InvalidParameterSpecException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +25,7 @@ public class TrackRecord {
         accuracy = 0f;
     }
 
-    public TrackRecord(Collection<WifiApRecord> wifiApRecords) {
+    TrackRecord(Collection<WifiApRecord> wifiApRecords) {
         this.wifiApRecords = new HashSet<>(wifiApRecords);
         accuracy = 0f;
     }
@@ -40,7 +38,7 @@ public class TrackRecord {
         return wifiApRecords;
     }
 
-    public void update(Collection<ScanResult> scanResults) {
+    void update(Collection<ScanResult> scanResults) {
         for (ScanResult scanResult : scanResults) {
 
             WifiApRecord war;
@@ -53,7 +51,7 @@ public class TrackRecord {
         }
     }
 
-    public WifiApRecord contains(String BSSID, String SSID) {
+    private WifiApRecord contains(String BSSID, String SSID) {
         for (WifiApRecord wifiApRecord : wifiApRecords) {
             if (wifiApRecord.getBSSID().equals(BSSID) && wifiApRecord.getSSID().equals(SSID))
                 return wifiApRecord;
@@ -61,7 +59,7 @@ public class TrackRecord {
         return null;
     }
 
-    public double compare(TrackRecord record) {
+    double compare(TrackRecord record) {
         double sum = -1;
         boolean first = true;
         for (WifiApRecord wifiApRecord : wifiApRecords) {
@@ -91,7 +89,7 @@ public class TrackRecord {
         return res;
     }
 
-    public static TrackRecord deserialize(String string) throws InvalidParameterException {
+    static TrackRecord deserialize(String string) throws InvalidParameterException {
         String[] fields = string.split(Strings.TR_SERIALIZE_FIELD_SPACER);
 
         if (fields.length != 2
@@ -111,11 +109,11 @@ public class TrackRecord {
 
     }
 
-    protected static String trimQuotes(String string) {
+    static String trimQuotes(String string) {
         return string.substring(1, string.length() - 1);
     }
 
-    protected static boolean hasQuotes(String string){
+    static boolean hasQuotes(String string){
         return string.startsWith("'") && string.endsWith("'");
     }
 }
