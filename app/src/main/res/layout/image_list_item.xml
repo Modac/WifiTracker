@@ -21,7 +21,9 @@
             android:paddingEnd="?android:listPreferredItemPaddingEnd"
             android:contentDescription="@string/imageListItemDescription"
             android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
-            android:paddingRight="?android:listPreferredItemPaddingRight" />
+            android:paddingRight="?android:listPreferredItemPaddingRight"
+            android:tint="@color/colorAccent"
+            android:tintMode="screen" />
 
         <TextView
             android:id="@+id/imageListItemMainText"

@@ -2,6 +2,7 @@ package com.modac.wifitracker;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -9,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -16,15 +18,21 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.modac.wifitracker.listeners.RecordButtonClickListener;
+import com.modac.wifitracker.logic.TrackManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -186,4 +194,32 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(drawerLayout, "Already recording", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }*/
+
+
+    public void showTestDialog(View view){
+        new TestDialog().show(getSupportFragmentManager(), "TestDialog");
+    }
+
+    public static class TestDialog extends DialogFragment{
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            // Get the layout inflater
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View view = inflater.inflate(R.layout.test_dialog, null);
+            TextView textView = (TextView) view.findViewById(R.id.testDialogText);
+
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+            textView.setText(gson.toJson(TrackManager.getInstance().getSavedRecords()));
+            // Inflate and set the layout for the dialog
+            // Pass null as the parent view because its going in the dialog layout
+            builder.setView(view);
+            return builder.create();
+
+        }
+    }
 }

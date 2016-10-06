@@ -38,7 +38,6 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             tools:ignore="RelativeOverlap"
-            android:elevation="24dp"
             android:background="@drawable/button"/>
 
 
