@@ -12,5 +12,7 @@
         android:layout_gravity="center"
         android:choiceMode="none"
         android:divider="?android:listDivider"
-        android:dividerHeight="1dp"/>
+        android:dividerHeight="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp" />
 </FrameLayout>
