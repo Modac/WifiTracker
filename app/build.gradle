@@ -31,4 +31,6 @@ dependencies {
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
     compile "com.android.support:support-v4:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
+    compile 'com.jjoe64:graphview:4.2.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
 }

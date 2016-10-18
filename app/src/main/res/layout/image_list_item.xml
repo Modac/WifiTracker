@@ -23,7 +23,7 @@
             android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
             android:paddingRight="?android:listPreferredItemPaddingRight"
             android:tint="@color/colorAccent"
-            android:tintMode="screen" />
+            android:tintMode="src_in" />
 
         <TextView
             android:id="@+id/imageListItemMainText"
