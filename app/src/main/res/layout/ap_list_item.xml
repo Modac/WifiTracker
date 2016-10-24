@@ -69,7 +69,7 @@
             android:id="@+id/guideline"
             android:orientation="vertical"
             tools:layout_editor_absoluteY="0dp"
-            tools:layout_editor_absoluteX="233dp"
+            tools:layout_editor_absoluteX="0dp"
             app:layout_constraintGuide_percent="0.6067708" />
 
         <com.jjoe64.graphview.GraphView
