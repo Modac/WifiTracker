@@ -26,10 +26,6 @@ public class ScanBuffer {
         Map<String, Integer> levelMap = new HashMap<>(scanResults.size());
 
         for (ScanResult scanResult : scanResults) {
-
-            /*if (apBufferMap.containsKey(scanResult.BSSID)) {
-                apBufferMap.get(scanResult.BSSID).updateValue(scanResult.level);
-            }*/
             levelMap.put(scanResult.BSSID, scanResult.level);
         }
 
