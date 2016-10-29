@@ -1,9 +1,11 @@
 package com.modac.wifitracker.logic;
 
 import android.net.wifi.ScanResult;
+import android.support.v7.app.AppCompatActivity;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,9 +18,18 @@ public class ScanBuffer {
 
     // BSSID is used as Key
     Map<String, ApBuffer> apBufferMap;
+    ScanReceiver scanReceiver;
+    boolean scanning;
 
-    public ScanBuffer(){
+    public ScanBuffer(AppCompatActivity activity){
         apBufferMap = new HashMap<>();
+        scanning = false;
+        scanReceiver = new ScanReceiver(activity, new Consumer<List<ScanResult>>() {
+            @Override
+            public void accept(List<ScanResult> a) {
+                update(a);
+            }
+        });
     }
 
     void update(Collection<ScanResult> scanResults) {
@@ -45,10 +56,23 @@ public class ScanBuffer {
 
     }
 
+    public void startScan(){
 
-    public static ScanBuffer getInstance(){
+        if (scanning) return;
+        scanReceiver.register();
+        scanning = true;
+    }
+
+    public void stopScan(){
+        if (!scanning) return;
+        scanReceiver.unregister();
+        scanning = false;
+        apBufferMap.clear();
+    }
+
+    public static ScanBuffer getInstance(AppCompatActivity activity){
         if (instance==null)
-            instance = new ScanBuffer();
+            instance = new ScanBuffer(activity);
         return instance;
     }
 
@@ -67,6 +91,7 @@ public class ScanBuffer {
             updateValue(startValue);
         }
 
+        // Calculates new average value with new value
         private void updateValue(int val){
             n++;
             value = (n-1)/n * value + (val/n);

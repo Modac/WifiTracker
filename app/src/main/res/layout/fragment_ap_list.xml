@@ -5,11 +5,10 @@
     tools:context="com.modac.wifitracker.ApListFragment">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/ap_list_default_text"
+    <ListView
         android:id="@+id/apListView"
-        android:layout_gravity="center" />
+        android:divider="?android:listDivider"
+        android:dividerHeight="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>

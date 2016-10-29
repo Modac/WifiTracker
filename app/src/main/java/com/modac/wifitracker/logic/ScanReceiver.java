@@ -11,24 +11,29 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.List;
 
 /**
- * Created by Keller2 on 24.06.2016.
+ * Created by Pascal Goldbrunner.
  *
  */
 public class ScanReceiver extends BroadcastReceiver{
     private Consumer<List<ScanResult>> consumer;
     private AppCompatActivity activity;
 
-    private ScanReceiver(AppCompatActivity activity, Consumer<List<ScanResult>> consumer){
+    public ScanReceiver(AppCompatActivity activity, Consumer<List<ScanResult>> consumer){
         this.consumer=consumer;
         this.activity=activity;
     }
 
     public static ScanReceiver register(AppCompatActivity activity, Consumer<List<ScanResult>> consumer){
         ScanReceiver receiver = new ScanReceiver(activity, consumer);
-        activity.registerReceiver(receiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        receiver.register();
+        return receiver;
+    }
+
+    public void register(){
+        activity.registerReceiver(this, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         WifiManager wifiManager = (WifiManager) activity.getSystemService(Context.WIFI_SERVICE);
         wifiManager.startScan();
-        return receiver;
+
     }
 
     public void unregister(){
