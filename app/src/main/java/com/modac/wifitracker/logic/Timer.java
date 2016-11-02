@@ -3,6 +3,7 @@ package com.modac.wifitracker.logic;
 
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,11 +28,15 @@ public class Timer extends Handler{
     public void handleMessage(Message msg) {
         if(!running) return;
 
+        long prevTime = SystemClock.elapsedRealtime();
         for (Runnable run : runnables) {
             run.run();
         }
 
-        sendMessageDelayed(obtainMessage(), 1000);
+        long delay = prevTime + 1000 - SystemClock.elapsedRealtime();
+        while (delay < 0) delay += 1000 ;
+        
+        sendMessageDelayed(obtainMessage(), delay);
     }
 
     public static Timer getInstance(){
@@ -49,6 +54,7 @@ public class Timer extends Handler{
     }
 
 }
+
 
 /*
     final Handler bombHandler = new Handler(){

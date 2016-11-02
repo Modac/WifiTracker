@@ -36,6 +36,7 @@ public class ApListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ap_list, container, false);
+
         apListView = (TextView) view.findViewById(R.id.apListView);
         return view;
     }

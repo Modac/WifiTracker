@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 24
     buildToolsVersion "23.0.3"
 
     defaultConfig {
@@ -21,7 +21,7 @@ android {
 }
 
 ext {
-    supportLibVersion = '25.0.0'  // variable that can be referenced to keep support libs consistent
+    supportLibVersion = '24.2.1'  // variable that can be referenced to keep support libs consistent
 }
 
 dependencies {
