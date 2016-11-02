@@ -30,6 +30,7 @@ public class ApListAdapter extends BaseAdapter {
     private List<View> viewList;
     private Map<ScanResult, Integer> apMap;
     private List<LineGraphSeries<DataPoint>> graphSeriesList;
+    private long startTime = -1;
 
     public ApListAdapter(Context context, Collection<ScanResult> apCollection){
         this.context=context;
@@ -88,8 +89,9 @@ public class ApListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return getEntry(i).getValue();
     }
+
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
@@ -111,5 +113,12 @@ public class ApListAdapter extends BaseAdapter {
         }
 
         return view;
+    }
+
+    public void update(Collection<ScanResult> scanResults){
+        if(startTime<0) startTime = System.currentTimeMillis();
+        long time = System.currentTimeMillis();
+
+        //TODO: Add AP-class to represent an wifi acces point
     }
 }
