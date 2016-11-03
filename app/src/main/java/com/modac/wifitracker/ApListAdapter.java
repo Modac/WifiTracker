@@ -12,9 +12,11 @@ import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.modac.wifitracker.logic.AccessPoint;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,7 +30,7 @@ public class ApListAdapter extends BaseAdapter {
 
     private Context context;
     private List<View> viewList;
-    private Map<ScanResult, Integer> apMap;
+    private Map<AccessPoint, Integer> apMap;
     private List<LineGraphSeries<DataPoint>> graphSeriesList;
     private long startTime = -1;
 
@@ -39,12 +41,11 @@ public class ApListAdapter extends BaseAdapter {
         this.graphSeriesList = new ArrayList<>();
 
         for ( ScanResult sr : apCollection){
-            //sr.level=1;         // value level normally never reaches 1 so itss the value for undefinded
-            apMap.put(sr, 1);
+            apMap.put(AccessPoint.generateOf(sr), -1);
         }
     }
 
-    private View generateView(ScanResult scanResult, ViewGroup root){
+    private View generateView(AccessPoint accessPoint, ViewGroup root){
         View view  = ((LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.ap_list_item, root, false);
         TextView ssidTextView = (TextView) view.findViewById(R.id.ssidTextView);
         TextView moreInfoTextView = (TextView) view.findViewById(R.id.moreInfoTextView);
@@ -54,9 +55,19 @@ public class ApListAdapter extends BaseAdapter {
 
         //ViewGroup.MarginLayoutParams ssidLP = (ViewGroup.MarginLayoutParams) ssidTextView.getLayoutParams();
         //ssidTextView.setWidth((int) (guideLine.getX() - ssidLP.leftMargin - ssidLP.rightMargin));
-        ssidTextView.setText(scanResult.SSID);
+        ssidTextView.setText(accessPoint.getSSID());
 
-        moreInfoTextView.setText(scanResult.BSSID + " | " + scanResult.frequency);
+        moreInfoTextView.setText(accessPoint.getBSSID() + " | " + accessPoint.getFrequency());
+
+        graphView.getViewport().setYAxisBoundsManual(true);
+        graphView.getViewport().setMaxY(105);
+        graphView.getViewport().setMinY(0);
+
+        graphView.getViewport().setScalable(false);
+        graphView.getViewport().setScalableY(false);
+        graphView.getViewport().setScrollable(false);
+        graphView.getViewport().setScrollableY(false);
+
 
         return view;
     }
@@ -68,17 +79,11 @@ public class ApListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        Iterator<ScanResult> iterator = apMap.keySet().iterator();
-
-        for (;i>0;i--) {
-            //if(!iterator.hasNext()) throw new ArrayIndexOutOfBoundsException();
-            iterator.next();
-        }
-        return iterator.next();
+        return getEntry(i).getKey();
     }
 
-    private Map.Entry<ScanResult, Integer> getEntry(int i) {
-        Iterator<Map.Entry<ScanResult, Integer>> iterator = apMap.entrySet().iterator();
+    private Map.Entry<AccessPoint, Integer> getEntry(int i) {
+        Iterator<Map.Entry<AccessPoint, Integer>> iterator = apMap.entrySet().iterator();
 
         for (;i>0;i--) {
             //if(!iterator.hasNext()) throw new ArrayIndexOutOfBoundsException();
@@ -95,7 +100,7 @@ public class ApListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
-        Map.Entry<ScanResult, Integer> entry = getEntry(i);
+        Map.Entry<AccessPoint, Integer> entry = getEntry(i);
 
         View view;
 
@@ -117,8 +122,23 @@ public class ApListAdapter extends BaseAdapter {
 
     public void update(Collection<ScanResult> scanResults){
         if(startTime<0) startTime = System.currentTimeMillis();
-        long time = System.currentTimeMillis();
+        long timeDiv = (System.currentTimeMillis()-startTime)/1000;
 
-        //TODO: Add AP-class to represent an wifi acces point
+        Collection<AccessPoint> aps = new HashSet<>(scanResults.size());
+
+        for (ScanResult scanResult : scanResults){
+            AccessPoint e = AccessPoint.generateOf(scanResult);
+            aps.add(e);
+            if(apMap.keySet().contains(e)){
+                graphSeriesList.get(apMap.get(e)).appendData(new DataPoint(timeDiv, scanResult.level), true, 100);
+            } else {
+                apMap.put(e, -1);
+                notifyDataSetChanged();
+            }
+        }
+
+        for (Map.Entry<AccessPoint, Integer> mapEntry : apMap.entrySet()){
+            if()
+        }
     }
 }
