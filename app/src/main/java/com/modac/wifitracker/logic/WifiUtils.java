@@ -32,4 +32,13 @@ public class WifiUtils {
             return WifiManager.compareSignalLevel(rhs.level, lhs.level);
         }
     }
+
+    public int qualityOfdBm(int level){
+        if(level <= -100)
+            return 0;
+        else if(level >= -50)
+            return 100;
+        else
+            return 2 * (level + 100);
+    }
 }
