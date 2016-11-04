@@ -1,12 +1,13 @@
 package com.modac.wifitracker.logic;
 
 import android.net.wifi.ScanResult;
+import android.support.annotation.NonNull;
 
 /**
  * Created by Pascal Goldbrunner
  */
 
-public class AccessPoint {
+public class AccessPoint implements Comparable<AccessPoint>{
     String BSSID;
     String SSID;
     int frequency;
@@ -43,10 +44,18 @@ public class AccessPoint {
 
     @Override
     public boolean equals(Object obj) {
-        try{
+        if(obj instanceof AccessPoint)
             return equals((AccessPoint)obj);
-        } catch (ClassCastException ex){
-            return super.equals(obj);
-        }
+        return super.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return getSSID()+getBSSID()+getFrequency();
+    }
+
+    @Override
+    public int compareTo(@NonNull AccessPoint o) {
+        return equals(o) ? 0 : o.toString().compareTo(toString());
     }
 }

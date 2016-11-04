@@ -9,11 +9,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.modac.wifitracker.logic.Consumer;
 import com.modac.wifitracker.logic.ScanReceiver;
-import com.modac.wifitracker.logic.WifiUtils;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ import java.util.List;
 public class ApListFragment extends Fragment {
 
     private ScanReceiver receiver;
-    private TextView apListView;
+    private ListView apListView;
 
 
     public ApListFragment() {
@@ -37,7 +36,9 @@ public class ApListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ap_list, container, false);
 
-        apListView = (TextView) view.findViewById(R.id.apListView);
+        apListView = (ListView) view.findViewById(R.id.apListView);
+        ApListAdapter adapter = new ApListAdapter(getContext());
+        apListView.setAdapter(adapter);
         return view;
     }
 
@@ -61,6 +62,8 @@ public class ApListFragment extends Fragment {
     }
 
     private void updateApList(List<ScanResult> scanResults){
-        apListView.setText(WifiUtils.formatScanResults(scanResults));
+        //apListView.setText(WifiUtils.formatScanResults(scanResults));
+        //apListView.setBackgroundColor(Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random()*255)));
+        ((ApListAdapter)apListView.getAdapter()).update(scanResults);
     }
 }

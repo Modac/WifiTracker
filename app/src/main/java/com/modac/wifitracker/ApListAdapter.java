@@ -16,11 +16,11 @@ import com.modac.wifitracker.logic.AccessPoint;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Created by Pascal Goldbrunner
@@ -35,14 +35,20 @@ public class ApListAdapter extends BaseAdapter {
     private long startTime = -1;
 
     public ApListAdapter(Context context, Collection<ScanResult> apCollection){
+        this(context);
+
+        /*for ( ScanResult sr : apCollection){
+            apMap.put(AccessPoint.generateOf(sr), -1);
+        }*/
+
+        update(apCollection);
+    }
+
+    public ApListAdapter(Context context){
         this.context=context;
         this.viewList = new ArrayList<>();
-        this.apMap = new LinkedHashMap<>();
+        this.apMap = new TreeMap<>();
         this.graphSeriesList = new ArrayList<>();
-
-        for ( ScanResult sr : apCollection){
-            apMap.put(AccessPoint.generateOf(sr), -1);
-        }
     }
 
     private View generateView(AccessPoint accessPoint, ViewGroup root){
@@ -124,12 +130,12 @@ public class ApListAdapter extends BaseAdapter {
         if(startTime<0) startTime = System.currentTimeMillis();
         long timeDiv = (System.currentTimeMillis()-startTime)/1000;
 
-        Collection<AccessPoint> aps = new HashSet<>(scanResults.size());
+        Collection<AccessPoint> aps = new TreeSet<>();
 
         for (ScanResult scanResult : scanResults){
             AccessPoint e = AccessPoint.generateOf(scanResult);
             aps.add(e);
-            if(apMap.keySet().contains(e)){
+            if(apMap.containsKey(e)){
                 graphSeriesList.get(apMap.get(e)).appendData(new DataPoint(timeDiv, scanResult.level), true, 100);
             } else {
                 apMap.put(e, -1);
@@ -138,7 +144,9 @@ public class ApListAdapter extends BaseAdapter {
         }
 
         for (Map.Entry<AccessPoint, Integer> mapEntry : apMap.entrySet()){
-            if()
+            if(!aps.contains(mapEntry.getKey())){
+                graphSeriesList.get(mapEntry.getValue()).appendData(new DataPoint(timeDiv, 0), true, 100);
+            }
         }
     }
 }
