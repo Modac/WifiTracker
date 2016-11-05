@@ -88,4 +88,5 @@ public class RecordNewFragment extends Fragment {
         recButton.setText(R.string.recButtonStart);
     }
 
+
 }

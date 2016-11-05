@@ -30,7 +30,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.modac.wifitracker.listeners.RecordButtonClickListener;
 import com.modac.wifitracker.logic.TrackManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -218,6 +217,23 @@ public class MainActivity extends AppCompatActivity {
             // Pass null as the parent view because its going in the dialog layout
             builder.setView(view);
             return builder.create();
+
+        }
+    }
+
+
+    private class RecordButtonClickListener implements View.OnClickListener {
+
+        private AppCompatActivity activity;
+
+        private RecordButtonClickListener(AppCompatActivity activity){
+            this.activity=activity;
+        }
+
+        @Override
+        public void onClick(View v) {
+            FragmentManager fragMan = activity.getSupportFragmentManager();
+            fragMan.beginTransaction().replace(R.id.relLayMain, new RecordNewFragment()).commit();
 
         }
     }
