@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.closeDrawers();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new RecordButtonClickListener(this));
+        fab.setOnClickListener(new FABClickListener(this));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class RecordButtonClickListener implements View.OnClickListener {
+    private class FABClickListener implements View.OnClickListener {
 
         private AppCompatActivity activity;
 
