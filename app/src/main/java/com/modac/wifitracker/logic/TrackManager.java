@@ -106,6 +106,8 @@ public class TrackManager {
                 tr.update(a);
             }
         });
+        
+        recording = true;
 
         return tr;
 
