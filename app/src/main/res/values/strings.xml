@@ -13,4 +13,5 @@
     <string name="whereButtonText">Where</string>
     <string name="ap_list_default_text">AP List</string>
     <string name="image_list_item_default_text">Default</string>
+    <string name="show_json_button">Show Json</string>
 </resources>

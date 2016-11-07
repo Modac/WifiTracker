@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.modac.wifitracker.logic.RoomTrackRecord;
@@ -40,7 +39,8 @@ public class RecordsFragment extends Fragment {
                 rooms[i] = ((RoomTrackRecord) tm.getSavedRecords().toArray()[i]).getRoom();
                 Log.d("RF", rooms[i]);
             }
-            recordsListView.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, rooms));
+            //recordsListView.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, rooms));
+            recordsListView.setAdapter(new RecordListAdapter(getContext()));
         }
         return view;
     }
