@@ -2,7 +2,6 @@ package com.modac.wifitracker.logic;
 
 import android.net.wifi.ScanResult;
 
-import java.security.InvalidParameterException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,8 +15,6 @@ public class TrackRecord {
 
     private double accuracy;
     private Set<WifiApRecord> wifiApRecords;
-
-
 
 
     public TrackRecord() {
@@ -43,7 +40,7 @@ public class TrackRecord {
 
             WifiApRecord war;
             if ((war = contains(scanResult.BSSID, scanResult.SSID)) == null) {
-                war = new WifiApRecord(scanResult.BSSID, scanResult.SSID);
+                war = new WifiApRecord(scanResult.BSSID, scanResult.SSID, scanResult.frequency);
                 wifiApRecords.add(war);
             }
             war.addLevel(scanResult.level);
@@ -53,7 +50,7 @@ public class TrackRecord {
 
     private WifiApRecord contains(String BSSID, String SSID) {
         for (WifiApRecord wifiApRecord : wifiApRecords) {
-            if (wifiApRecord.getBSSID().equals(BSSID) && wifiApRecord.getSSID().equals(SSID))
+            if (wifiApRecord.getAp().getBSSID().equals(BSSID) && wifiApRecord.getAp().getSSID().equals(SSID))
                 return wifiApRecord;
         }
         return null;
@@ -67,7 +64,7 @@ public class TrackRecord {
                 sum = 0;
                 first = false;
             }
-            WifiApRecord war = record.contains(wifiApRecord.getBSSID(), wifiApRecord.getSSID());
+            WifiApRecord war = record.contains(wifiApRecord.getAp().getBSSID(), wifiApRecord.getAp().getSSID());
             double avgLevel = war == null ? -100 : war.getAvgLevel();
 
             //Log.d(TAG, wifiApRecord.getSSID() + ": " + avgLevel + ", " + wifiApRecord.getAvgLevel());
@@ -77,46 +74,4 @@ public class TrackRecord {
         return sum;
     }
 
-    @Deprecated
-    String serialize() {
-        String res = "'" + accuracy + "'" + Strings.TR_SERIALIZE_FIELD_SPACER + "'";
-        boolean first = true;
-        for (WifiApRecord wifiApRecord : wifiApRecords) {
-            if (!first) res += Strings.TR_SERIALIZE_LIST_ITEM_SPACER;
-            else first = false;
-            res += wifiApRecord.serialize();
-        }
-        res += "'";
-        return res;
-    }
-
-    @Deprecated
-    static TrackRecord deserialize(String string) throws InvalidParameterException {
-        String[] fields = string.split(Strings.TR_SERIALIZE_FIELD_SPACER);
-
-        if (fields.length != 2
-                || noQuotes(fields[0])
-                || noQuotes(fields[1])) {
-            throw new InvalidParameterException("Invalid string of serialized TrackRecord");
-        }
-
-        //noinspection UnusedAssignment
-        double acc = Double.valueOf(trimQuotes(fields[0]));
-
-        String[] parts = trimQuotes(fields[1]).split(Strings.TR_SERIALIZE_LIST_ITEM_SPACER);
-        Set<WifiApRecord> wars = new HashSet<>();
-        for (String part : parts) {
-            wars.add(WifiApRecord.deserialize(part));
-        }
-        return new TrackRecord(wars);
-
-    }
-
-    static String trimQuotes(String string) {
-        return string.substring(1, string.length() - 1);
-    }
-
-    static boolean noQuotes(String string){
-        return !string.startsWith("'") || !string.endsWith("'");
-    }
 }
