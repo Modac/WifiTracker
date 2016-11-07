@@ -1,8 +1,10 @@
 package com.modac.wifitracker;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.wifi.ScanResult;
 import android.support.constraint.Guideline;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.modac.wifitracker.logic.AccessPoint;
+import com.modac.wifitracker.logic.WifiUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +31,7 @@ import java.util.TreeSet;
 
 public class ApListAdapter extends BaseAdapter {
 
+    public static final String TAG = "ApListAdapter";
     private Context context;
     private List<View> viewList;
     private Map<AccessPoint, Integer> apMap;
@@ -68,6 +72,8 @@ public class ApListAdapter extends BaseAdapter {
         graphView.getViewport().setYAxisBoundsManual(true);
         graphView.getViewport().setMaxY(105);
         graphView.getViewport().setMinY(0);
+        graphView.getViewport().setXAxisBoundsManual(true);
+        graphView.getViewport().setMinX(0);
 
         graphView.getViewport().setScalable(false);
         graphView.getViewport().setScalableY(false);
@@ -115,6 +121,8 @@ public class ApListAdapter extends BaseAdapter {
         } catch (IndexOutOfBoundsException ex){
             view = generateView(entry.getKey(), viewGroup);
             LineGraphSeries<DataPoint> lgs = new LineGraphSeries<>( new DataPoint[]{});
+            lgs.setBackgroundColor(Color.parseColor("#C859C5DA"));
+            lgs.setDrawBackground(true);
             ((GraphView) view.findViewById(R.id.rssiGraphView)).addSeries(lgs);
 
             viewList.add(view);
@@ -136,7 +144,7 @@ public class ApListAdapter extends BaseAdapter {
             AccessPoint e = AccessPoint.generateOf(scanResult);
             aps.add(e);
             if(apMap.containsKey(e)){
-                graphSeriesList.get(apMap.get(e)).appendData(new DataPoint(timeDiv, scanResult.level), true, 100);
+                appendData(apMap.get(e), timeDiv, WifiUtils.qualityOfdBm(scanResult.level));
             } else {
                 apMap.put(e, -1);
                 notifyDataSetChanged();
@@ -145,8 +153,15 @@ public class ApListAdapter extends BaseAdapter {
 
         for (Map.Entry<AccessPoint, Integer> mapEntry : apMap.entrySet()){
             if(!aps.contains(mapEntry.getKey())){
-                graphSeriesList.get(mapEntry.getValue()).appendData(new DataPoint(timeDiv, 0), true, 100);
+                appendData(mapEntry.getValue(), timeDiv, 0);
             }
         }
+
+        Log.d(TAG, "update");
+    }
+
+    private void appendData(int entryIndex, long x, int y) {
+        graphSeriesList.get(entryIndex).appendData(new DataPoint(x, y), false, 1000);
+        ((GraphView) viewList.get(entryIndex).findViewById(R.id.rssiGraphView)).getViewport().setMaxX(x);
     }
 }

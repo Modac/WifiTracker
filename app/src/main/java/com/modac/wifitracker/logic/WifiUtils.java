@@ -33,7 +33,7 @@ public class WifiUtils {
         }
     }
 
-    public int qualityOfdBm(int level){
+    public static int qualityOfdBm(int level){
         if(level <= -100)
             return 0;
         else if(level >= -50)
