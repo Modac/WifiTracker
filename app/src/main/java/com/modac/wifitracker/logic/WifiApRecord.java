@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Pascal Goldbrunner
  */
-class WifiApRecord {
+class WifiApRecord implements Comparable<WifiApRecord>{
 
     private boolean active;
     private AccessPoint ap;
@@ -50,4 +50,8 @@ class WifiApRecord {
         return sum/levels.size();
     }
 
+    @Override
+    public int compareTo(WifiApRecord o) {
+        return ap.compareTo(o.getAp());
+    }
 }

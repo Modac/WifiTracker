@@ -56,6 +56,7 @@ public class TrackRecord {
         return null;
     }
 
+
     double compare(TrackRecord record) {
         double sum = -1;
         boolean first = true;
@@ -66,6 +67,7 @@ public class TrackRecord {
             }
             WifiApRecord war = record.contains(wifiApRecord.getAp().getBSSID(), wifiApRecord.getAp().getSSID());
             double avgLevel = war == null ? -100 : war.getAvgLevel();
+            //double avgLevel = war == null ? -100 : record.getWifiApRecords()..getAvgLevel();
 
             //Log.d(TAG, wifiApRecord.getSSID() + ": " + avgLevel + ", " + wifiApRecord.getAvgLevel());
 

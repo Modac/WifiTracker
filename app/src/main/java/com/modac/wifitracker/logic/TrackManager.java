@@ -20,10 +20,10 @@ import java.io.InputStreamReader;
 import java.io.Writer;
 import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by Pascal Goldbrunner
@@ -46,7 +46,7 @@ public class TrackManager {
 
     private TrackManager(){
         this.activity = MainActivity.instance;
-        savedRecords = new HashSet<>();
+        savedRecords = new TreeSet<>();
         updateLoadedRecords();
     }
 
@@ -116,12 +116,6 @@ public class TrackManager {
         recording = false;
     }
 
-    /*
-    public void update(String room){
-        // TODO: 24.06.2016
-    }
-    */
-
     private void updateLoadedRecords() {
         savedRecords.clear();
         File file = new File(activity.getFilesDir(), DEFAULT_RECORDS_FILE);
@@ -145,7 +139,14 @@ public class TrackManager {
 
     public void addRoomTrackRecord(RoomTrackRecord record){
 
-        savedRecords.add(record);
+        if(savedRecords.contains(record)){
+            savedRecords.remove(record);
+            savedRecords.add(record);
+            Log.d(TAG, "addRTR: Replaced " + record.getRoom());
+        } else {
+            savedRecords.add(record);
+
+        }
 
         try {
             //FileOutputStream fos = activity.openFileOutput(DEFAULT_RECORDS_FILE, AppCompatActivity.MODE_PRIVATE);
@@ -159,6 +160,10 @@ public class TrackManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void deleteRoomTrackRecord(String room){
+        savedRecords.remove(new RoomTrackRecord(room));
     }
 
     public static TrackManager getInstance(){

@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Created by Pascal Goldbrunner
  */
-public class RoomTrackRecord extends TrackRecord {
+public class RoomTrackRecord extends TrackRecord implements Comparable<RoomTrackRecord>{
 
     private static String TAG = "RoomTrackRecord";
 
@@ -27,4 +27,8 @@ public class RoomTrackRecord extends TrackRecord {
         return room;
     }
 
+    @Override
+    public int compareTo(RoomTrackRecord o) {
+        return room.compareTo(o.getRoom());
+    }
 }
