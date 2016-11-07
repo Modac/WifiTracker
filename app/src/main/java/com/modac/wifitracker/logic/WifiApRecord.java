@@ -12,7 +12,7 @@ class WifiApRecord {
     private AccessPoint ap;
     private List<Integer> levels;
 
-    private WifiApRecord(@SuppressWarnings("SameParameterValue") boolean active, String BSSID, String SSID, int frequency, List<Integer> levels){
+    private WifiApRecord(boolean active, String BSSID, String SSID, int frequency, List<Integer> levels){
         this.active = active;
         ap = new AccessPoint(BSSID, SSID, frequency);
         this.levels = levels;
@@ -20,6 +20,10 @@ class WifiApRecord {
 
     WifiApRecord(String BSSID, String SSID, int frequency){
         this(true, BSSID, SSID, frequency, new ArrayList<Integer>());
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     AccessPoint getAp(){
