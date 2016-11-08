@@ -106,6 +106,8 @@ public class TrackManager {
                 tr.update(a);
             }
         });
+        
+        recording = true;
 
         return tr;
 
@@ -127,8 +129,8 @@ public class TrackManager {
 
             Gson gson = new Gson();
             Type savedRecordsType = new TypeToken<Set<RoomTrackRecord>>(){}.getType();
-
             Set<RoomTrackRecord> rtrSet = gson.fromJson(isr, savedRecordsType);
+            
             if(rtrSet!=null){
                 savedRecords.addAll(rtrSet);
             }
@@ -151,12 +153,13 @@ public class TrackManager {
         try {
             //FileOutputStream fos = activity.openFileOutput(DEFAULT_RECORDS_FILE, AppCompatActivity.MODE_PRIVATE);
             //OutputStreamWriter osw = new OutputStreamWriter(fos);
+            
             Writer w = new FileWriter(new File(activity.getFilesDir(), DEFAULT_RECORDS_FILE));
-
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(savedRecords, w);
             Log.d(TAG, gson.toJson(savedRecords));
             w.close();
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
