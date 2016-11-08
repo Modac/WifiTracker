@@ -35,8 +35,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/checkBox"
-            android:layout_toEndOf="@+id/checkBox"
             android:id="@+id/ssidTextView"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
             android:maxLines="1"
