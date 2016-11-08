@@ -24,6 +24,7 @@ public class ApListFragment extends Fragment {
 
     private ScanReceiver receiver;
     private ListView apListView;
+    private RecordNewFragment rnf;
 
 
     public ApListFragment() {
@@ -37,7 +38,10 @@ public class ApListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ap_list, container, false);
 
         apListView = (ListView) view.findViewById(R.id.apListView);
-        ApListAdapter adapter = new ApListAdapter(getContext());
+        if( getArguments()!=null && getArguments().getBoolean("childOfRnf")){
+            rnf = RecordNewFragment.instance;
+        }
+        ApListAdapter adapter = new ApListAdapter(getContext(), rnf);
         apListView.setAdapter(adapter);
         return view;
     }

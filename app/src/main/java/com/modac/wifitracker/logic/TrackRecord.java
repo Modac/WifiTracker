@@ -1,6 +1,7 @@
 package com.modac.wifitracker.logic;
 
 import android.net.wifi.ScanResult;
+import android.util.Log;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -39,7 +40,7 @@ public class TrackRecord {
         for (ScanResult scanResult : scanResults) {
 
             WifiApRecord war;
-            if ((war = contains(scanResult.BSSID, scanResult.SSID)) == null) {
+            if ((war = contains(AccessPoint.generateOf(scanResult))) == null) {
                 war = new WifiApRecord(scanResult.BSSID, scanResult.SSID, scanResult.frequency);
                 wifiApRecords.add(war);
             }
@@ -48,9 +49,15 @@ public class TrackRecord {
         }
     }
 
-    private WifiApRecord contains(String BSSID, String SSID) {
+    public void setApActive(AccessPoint ap, boolean active){
+        WifiApRecord war = contains(ap);
+        if(war==null) return;
+        war.setActive(active);
+    }
+
+    private WifiApRecord contains(AccessPoint ap) {
         for (WifiApRecord wifiApRecord : wifiApRecords) {
-            if (wifiApRecord.getAp().getBSSID().equals(BSSID) && wifiApRecord.getAp().getSSID().equals(SSID))
+            if (wifiApRecord.getAp().compareTo(ap)==0)
                 return wifiApRecord;
         }
         return null;
@@ -65,7 +72,10 @@ public class TrackRecord {
                 sum = 0;
                 first = false;
             }
-            WifiApRecord war = record.contains(wifiApRecord.getAp().getBSSID(), wifiApRecord.getAp().getSSID());
+            Log.d(TAG, "now handling: " + wifiApRecord.getAp());
+            if(!wifiApRecord.isActive()) continue;
+            Log.d(TAG, "still");
+            WifiApRecord war = record.contains(wifiApRecord.getAp());
             double avgLevel = war == null ? -100 : war.getAvgLevel();
             //double avgLevel = war == null ? -100 : record.getWifiApRecords()..getAvgLevel();
 
@@ -73,6 +83,13 @@ public class TrackRecord {
 
             sum += wifiApRecord.getDistance(avgLevel);
         }
+        /*
+        for (WifiApRecord wifiApRecord : record.getWifiApRecords()){
+            if(contains(wifiApRecord.getAp())==null){
+                sum+= wifiApRecord.getDistance(-100);
+                Log.d(TAG, "got one " + wifiApRecord.getAp());
+            }
+        }*/
         return sum;
     }
 

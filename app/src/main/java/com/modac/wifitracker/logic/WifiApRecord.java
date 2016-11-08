@@ -19,11 +19,15 @@ class WifiApRecord implements Comparable<WifiApRecord>{
     }
 
     WifiApRecord(String BSSID, String SSID, int frequency){
-        this(true, BSSID, SSID, frequency, new ArrayList<Integer>());
+        this(false, BSSID, SSID, frequency, new ArrayList<Integer>());
     }
 
     public boolean isActive() {
         return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     AccessPoint getAp(){

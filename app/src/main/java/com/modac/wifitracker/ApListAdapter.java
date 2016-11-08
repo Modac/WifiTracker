@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -37,26 +39,27 @@ public class ApListAdapter extends BaseAdapter {
     private Map<AccessPoint, Integer> apMap;
     private List<LineGraphSeries<DataPoint>> graphSeriesList;
     private long startTime = -1;
+    private RecordNewFragment rnf;
 
-    public ApListAdapter(Context context, Collection<ScanResult> apCollection){
-        this(context);
+    public ApListAdapter(Context context, Collection<ScanResult> apCollection, RecordNewFragment rnf){
+        this(context, rnf);
 
         /*for ( ScanResult sr : apCollection){
             apMap.put(AccessPoint.generateOf(sr), -1);
         }*/
-
         update(apCollection);
     }
 
-    public ApListAdapter(Context context){
+    public ApListAdapter(Context context, RecordNewFragment rnf){
         this.context=context;
         this.viewList = new ArrayList<>();
         this.apMap = new TreeMap<>();
         this.graphSeriesList = new ArrayList<>();
+        this.rnf = rnf;
     }
 
     private View generateView(AccessPoint accessPoint, ViewGroup root){
-        View view  = ((LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.ap_list_item, root, false);
+        View view  = ((LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(rnf!=null?R.layout.ap_list_item_check:R.layout.ap_list_item, root, false);
         TextView ssidTextView = (TextView) view.findViewById(R.id.ssidTextView);
         TextView moreInfoTextView = (TextView) view.findViewById(R.id.moreInfoTextView);
         GraphView graphView = (GraphView) view.findViewById(R.id.rssiGraphView);
@@ -80,6 +83,9 @@ public class ApListAdapter extends BaseAdapter {
         graphView.getViewport().setScrollable(false);
         graphView.getViewport().setScrollableY(false);
 
+        if(rnf!=null){
+            ((CheckBox) view.findViewById(R.id.checkBox)).setOnCheckedChangeListener(new CheckBoxListener(accessPoint));
+        }
 
         return view;
     }
@@ -131,8 +137,20 @@ public class ApListAdapter extends BaseAdapter {
 
         }
 
+        if(rnf!=null){
+            if(rnf.checkboxEnabled){
+                ((CheckBox) view.findViewById(R.id.checkBox)).setEnabled(true);
+            } else {
+                ((CheckBox) view.findViewById(R.id.checkBox)).setEnabled(false);
+                ignoreChange=true;
+                ((CheckBox) view.findViewById(R.id.checkBox)).setChecked(false);
+                ignoreChange=false;
+            }
+        }
+
         return view;
     }
+
 
     public void update(Collection<ScanResult> scanResults){
         if(startTime<0) startTime = System.currentTimeMillis();
@@ -163,5 +181,22 @@ public class ApListAdapter extends BaseAdapter {
     private void appendData(int entryIndex, long x, int y) {
         graphSeriesList.get(entryIndex).appendData(new DataPoint(x, y), false, 1000);
         ((GraphView) viewList.get(entryIndex).findViewById(R.id.rssiGraphView)).getViewport().setMaxX(x);
+    }
+
+    private boolean ignoreChange = false;
+
+    private class CheckBoxListener implements CompoundButton.OnCheckedChangeListener{
+        AccessPoint ap;
+
+        private CheckBoxListener(AccessPoint ap){
+            this.ap=ap;
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(rnf==null || ignoreChange) return;
+            rnf.trackRecord.setApActive(ap, isChecked);
+            Log.d("CheckedboxListener", ap.getBSSID() + " " + isChecked);
+        }
     }
 }

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.modac.wifitracker.logic.AlreadyTrackingException;
 import com.modac.wifitracker.logic.RoomTrackRecord;
@@ -26,7 +27,10 @@ public class RecordNewFragment extends Fragment {
     private Button recButton;
 
     private boolean recording;
-    private TrackRecord trackRecord;
+    TrackRecord trackRecord;
+    ApListFragment aplF;
+    public boolean checkboxEnabled = false;
+    public static RecordNewFragment instance;
 
     private AppCompatActivity activity;
 
@@ -35,6 +39,7 @@ public class RecordNewFragment extends Fragment {
         recording = false;
         trackRecord = new TrackRecord();
         activity = (AppCompatActivity) getActivity();
+        instance = this;
     }
 
 
@@ -47,8 +52,11 @@ public class RecordNewFragment extends Fragment {
 
         recButton = (Button) view.findViewById(R.id.recButton);
         recButton.setOnClickListener(new RecButtonListener());
-
-        getChildFragmentManager().beginTransaction().replace(R.id.newRecInnerRelLay, new ApListFragment()).commit();
+        Bundle args = new Bundle();
+        args.putBoolean("childOfRnf", true);
+        aplF = new ApListFragment();
+        aplF.setArguments(args);
+        getChildFragmentManager().beginTransaction().replace(R.id.newRecInnerRelLay, aplF).commit();
 
         return view;
     }
@@ -63,6 +71,10 @@ public class RecordNewFragment extends Fragment {
                     trackRecord = trackManager.startRecord();
                     toActive();
                     recording = true;
+
+                    checkboxEnabled=true;
+                    ApListAdapter adapter = (ApListAdapter) ((ListView) aplF.getView().findViewById(R.id.apListView)).getAdapter();
+                    adapter.notifyDataSetChanged();
                 } catch (AlreadyTrackingException e) {
                     //noinspection ConstantConditions
                     Snackbar.make(getView(), "Already tracking", Snackbar.LENGTH_LONG)
@@ -74,6 +86,10 @@ public class RecordNewFragment extends Fragment {
                 trackManager.stopRecord();
                 recording = false;
                 trackManager.addRoomTrackRecord(new RoomTrackRecord(roomTextField.getText().toString(), trackRecord.getWifiApRecords()));
+
+                checkboxEnabled = false;
+                ApListAdapter adapter = (ApListAdapter) ((ListView) aplF.getView().findViewById(R.id.apListView)).getAdapter();
+                adapter.notifyDataSetChanged();
             }
         }
     }
