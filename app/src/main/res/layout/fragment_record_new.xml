@@ -16,8 +16,8 @@
 
         <EditText
             android:layout_height="wrap_content"
-            android:id="@+id/roomTextField"
-            android:text="@string/roomTextFieldText"
+            android:id="@+id/positionTextField"
+            android:text="@string/positionTextFieldText"
             android:layout_marginLeft="30dp"
             android:layout_marginStart="30dp"
             android:layout_alignBottom="@+id/recButton"

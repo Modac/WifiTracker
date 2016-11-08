@@ -8,7 +8,7 @@
     <string name="recButtonStart">start</string>
     <string name="recButtonStop">stop</string>
     <string name="imageListItemDescription">Image View</string>
-    <string name="roomTextFieldText">room</string>
+    <string name="positionTextFieldText">position</string>
     <string name="thereTextViewText">There:</string>
     <string name="whereButtonText">Where</string>
     <string name="ap_list_default_text">AP List</string>

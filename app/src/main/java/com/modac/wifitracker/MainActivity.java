@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
 
         private AppCompatActivity activity;
 
-        private RecordButtonClickListener(AppCompatActivity activity){
+        private FABClickListener(AppCompatActivity activity){
             this.activity=activity;
         }
 

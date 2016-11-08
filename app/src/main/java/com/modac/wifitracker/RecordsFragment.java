@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.modac.wifitracker.logic.RoomTrackRecord;
+import com.modac.wifitracker.logic.PositionTrackRecord;
 import com.modac.wifitracker.logic.TrackManager;
 
 
@@ -34,10 +34,10 @@ public class RecordsFragment extends Fragment {
         recordsListView = (ListView) view.findViewById(R.id.recordsListView);
         TrackManager tm = TrackManager.getInstance();
         if (tm.getSavedRecords().size()>0) {
-            String[] rooms = new String[tm.getSavedRecords().size()];
-            for (int i = 0; i < rooms.length; i++) {
-                rooms[i] = ((RoomTrackRecord) tm.getSavedRecords().toArray()[i]).getRoom();
-                Log.d("RF", rooms[i]);
+            String[] positions = new String[tm.getSavedRecords().size()];
+            for (int i = 0; i < positions.length; i++) {
+                positions[i] = ((PositionTrackRecord) tm.getSavedRecords().toArray()[i]).getPosition();
+                Log.d("RF", positions[i]);
             }
             //recordsListView.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, rooms));
             recordsListView.setAdapter(new RecordListAdapter(getContext()));

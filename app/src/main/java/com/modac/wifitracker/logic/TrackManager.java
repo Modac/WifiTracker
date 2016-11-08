@@ -34,7 +34,7 @@ public class TrackManager {
 
     private AppCompatActivity activity;
 
-    private Set<RoomTrackRecord> savedRecords;
+    private Set<PositionTrackRecord> savedRecords;
     @SuppressLint("StaticFieldLeak")
     private static TrackManager instance;
     private boolean recording;
@@ -42,7 +42,7 @@ public class TrackManager {
     private ScanReceiver receiver = null;
 
     private static final double DEFAULT_MAXIMUM_DISTANCE = 10.0;
-    private static final String DEFAULT_RECORDS_FILE =  "records.json";
+    private static final String DEFAULT_RECORDS_FILE =  "positionsAufnahmen.json";
 
     private TrackManager(){
         this.activity = MainActivity.instance;
@@ -50,15 +50,15 @@ public class TrackManager {
         updateLoadedRecords();
     }
 
-    public Set<RoomTrackRecord> getSavedRecords(){
+    public Set<PositionTrackRecord> getSavedRecords(){
         return savedRecords;
     }
 
-    public Map<RoomTrackRecord, Double> track() {
+    public Map<PositionTrackRecord, Double> track() {
         return track(DEFAULT_MAXIMUM_DISTANCE);
     }
 
-    private Map<RoomTrackRecord, Double> track(@SuppressWarnings("SameParameterValue") double distance) {
+    private Map<PositionTrackRecord, Double> track(@SuppressWarnings("SameParameterValue") double distance) {
 
         TrackRecord tr = new TrackRecord();
         /*
@@ -79,14 +79,14 @@ public class TrackManager {
         return track(tr, distance);
     }
 
-    public Map<RoomTrackRecord, Double> track(TrackRecord record){
+    public Map<PositionTrackRecord, Double> track(TrackRecord record){
         return track(record, DEFAULT_MAXIMUM_DISTANCE);
     }
 
-    private Map<RoomTrackRecord, Double> track(TrackRecord record, @SuppressWarnings("UnusedParameters") double distance) {
+    private Map<PositionTrackRecord, Double> track(TrackRecord record, @SuppressWarnings("UnusedParameters") double distance) {
         //Log.d("TM", "track4");
-        Map<RoomTrackRecord, Double> resMap = new HashMap<>();
-        for (RoomTrackRecord rtr : savedRecords){
+        Map<PositionTrackRecord, Double> resMap = new HashMap<>();
+        for (PositionTrackRecord rtr : savedRecords){
             double dis = rtr.compare(record);
             /*if(dis<=distance)*/ resMap.put(rtr, dis);
             //Log.d("TM", "track4Loop");
@@ -128,8 +128,8 @@ public class TrackManager {
             InputStreamReader isr = new InputStreamReader(fis);
 
             Gson gson = new Gson();
-            Type savedRecordsType = new TypeToken<Set<RoomTrackRecord>>(){}.getType();
-            Set<RoomTrackRecord> rtrSet = gson.fromJson(isr, savedRecordsType);
+            Type savedRecordsType = new TypeToken<Set<PositionTrackRecord>>(){}.getType();
+            Set<PositionTrackRecord> rtrSet = gson.fromJson(isr, savedRecordsType);
             
             if(rtrSet!=null){
                 savedRecords.addAll(rtrSet);
@@ -139,12 +139,12 @@ public class TrackManager {
         }
     }
 
-    public void addRoomTrackRecord(RoomTrackRecord record){
+    public void addPositionTrackRecord(PositionTrackRecord record){
 
         if(savedRecords.contains(record)){
             savedRecords.remove(record);
             savedRecords.add(record);
-            Log.d(TAG, "addRTR: Replaced " + record.getRoom());
+            Log.d(TAG, "addRTR: Replaced " + record.getPosition());
         } else {
             savedRecords.add(record);
 
@@ -165,8 +165,8 @@ public class TrackManager {
         }
     }
 
-    public void deleteRoomTrackRecord(String room){
-        savedRecords.remove(new RoomTrackRecord(room));
+    public void deletePositionTrackRecord(String position){
+        savedRecords.remove(new PositionTrackRecord(position));
     }
 
     public static TrackManager getInstance(){

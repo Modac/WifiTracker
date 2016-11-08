@@ -1,2 +1,2 @@
 # WifiTracker
-Android app to record wifi rssis in a room to then locate the room your smartphone is in (theoretically)
+Android app to record wifi rssis at a position to then locate the position your smartphone is at (theoretically)

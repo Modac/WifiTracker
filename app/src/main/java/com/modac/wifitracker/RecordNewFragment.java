@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.modac.wifitracker.logic.AlreadyTrackingException;
-import com.modac.wifitracker.logic.RoomTrackRecord;
+import com.modac.wifitracker.logic.PositionTrackRecord;
 import com.modac.wifitracker.logic.TrackManager;
 import com.modac.wifitracker.logic.TrackRecord;
 
@@ -23,7 +23,7 @@ import com.modac.wifitracker.logic.TrackRecord;
  */
 public class RecordNewFragment extends Fragment {
 
-    private EditText roomTextField;
+    private EditText positionTextField;
     private Button recButton;
 
     private boolean recording;
@@ -48,7 +48,7 @@ public class RecordNewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_record_new, container, false);
-        roomTextField = (EditText) view.findViewById(R.id.roomTextField);
+        positionTextField = (EditText) view.findViewById(R.id.positionTextField);
 
         recButton = (Button) view.findViewById(R.id.recButton);
         recButton.setOnClickListener(new RecButtonListener());
@@ -85,7 +85,7 @@ public class RecordNewFragment extends Fragment {
                 toInactive();
                 trackManager.stopRecord();
                 recording = false;
-                trackManager.addRoomTrackRecord(new RoomTrackRecord(roomTextField.getText().toString(), trackRecord.getWifiApRecords()));
+                trackManager.addPositionTrackRecord(new PositionTrackRecord(positionTextField.getText().toString(), trackRecord.getWifiApRecords()));
 
                 checkboxEnabled = false;
                 ApListAdapter adapter = (ApListAdapter) ((ListView) aplF.getView().findViewById(R.id.apListView)).getAdapter();
@@ -95,12 +95,12 @@ public class RecordNewFragment extends Fragment {
     }
 
     private void toActive(){
-        roomTextField.setEnabled(false);
+        positionTextField.setEnabled(false);
         recButton.setText(R.string.recButtonStop);
     }
 
     private void toInactive(){
-        roomTextField.setEnabled(true);
+        positionTextField.setEnabled(true);
         recButton.setText(R.string.recButtonStart);
     }
 

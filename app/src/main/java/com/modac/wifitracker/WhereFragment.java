@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.modac.wifitracker.logic.RoomTrackRecord;
+import com.modac.wifitracker.logic.PositionTrackRecord;
 import com.modac.wifitracker.logic.TrackManager;
 
 import java.util.Map;
@@ -68,10 +68,10 @@ public class WhereFragment extends Fragment {
             setResult(TrackManager.getInstance().track());
         }
 
-        private void setResult(Map<RoomTrackRecord, Double> map){
+        private void setResult(Map<PositionTrackRecord, Double> map){
             String res = "";
-            for (Map.Entry<RoomTrackRecord, Double> entry : map.entrySet()){
-                res+= entry.getValue() + ": " + entry.getKey().getRoom() + "\n";
+            for (Map.Entry<PositionTrackRecord, Double> entry : map.entrySet()){
+                res+= entry.getValue() + ": " + entry.getKey().getPosition() + "\n";
             }
             textView.setText(res);
         }
