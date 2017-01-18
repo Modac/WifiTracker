@@ -235,4 +235,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+    public void onLoadClick(View view){
+        TrackManager.getInstance().loadOf(this, R.raw.testsample1);
+    }
 }

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.support.annotation.IdRes;
+import android.support.annotation.RawRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -12,10 +14,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.modac.wifitracker.MainActivity;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
 import java.lang.reflect.Type;
@@ -173,5 +178,26 @@ public class TrackManager {
         if (instance==null)
             instance = new TrackManager();
         return instance;
+    }
+
+    public void loadOf(Context context, @RawRes int resFile){
+        InputStream inputStream = context.getResources().openRawResource(resFile);
+
+        InputStreamReader inputreader = new InputStreamReader(inputStream);
+        BufferedReader buffreader = new BufferedReader(inputreader);
+        String line;
+        try {
+
+            BufferedWriter w = new BufferedWriter(new FileWriter(new File(activity.getFilesDir(), DEFAULT_RECORDS_FILE)));
+
+            while (( line = buffreader.readLine()) != null) {
+                w.write(line);
+                w.newLine();
+            }
+            w.flush();
+            updateLoadedRecords();
+        } catch (IOException e) {
+            return;
+        }
     }
 }

@@ -1,0 +1,108 @@
+[
+  {
+    "position": "position",
+    "accuracy": 0.0,
+    "wifiApRecords": [
+      {
+        "active": true,
+        "ap": {
+          "BSSID": "38:10:d5:24:82:45",
+          "SSID": "bienemaya2",
+          "frequency": 2452
+        },
+        "levels": [
+          -81,
+          -83,
+          -81,
+          -84,
+          -83,
+          -83,
+          -82,
+          -82,
+          -82,
+          -83,
+          -82
+        ]
+      },
+      {
+        "active": true,
+        "ap": {
+          "BSSID": "34:81:c4:b4:b0:c2",
+          "SSID": "bienemaya",
+          "frequency": 2462
+        },
+        "levels": [
+          -47,
+          -46,
+          -48,
+          -47,
+          -46,
+          -47,
+          -48,
+          -49,
+          -46,
+          -46,
+          -47
+        ]
+      },
+      {
+        "active": true,
+        "ap": {
+          "BSSID": "34:81:c4:b4:b0:c2",
+          "SSID": "",
+          "frequency": 2462
+        },
+        "levels": [
+          -46,
+          -46,
+          -48,
+          -47,
+          -45,
+          -47,
+          -48,
+          -47,
+          -45,
+          -46,
+          -47
+        ]
+      },
+      {
+        "active": false,
+        "ap": {
+          "BSSID": "80:1f:02:f8:42:25",
+          "SSID": "bienemaya3",
+          "frequency": 2462
+        },
+        "levels": [
+          -90,
+          -91,
+          -92,
+          -91,
+          -93,
+          -93,
+          -94,
+          -94,
+          -88,
+          -91,
+          -90
+        ]
+      },
+      {
+        "active": false,
+        "ap": {
+          "BSSID": "34:81:c4:b4:b0:c3",
+          "SSID": "",
+          "frequency": 5220
+        },
+        "levels": [
+          -54,
+          -54,
+          -57,
+          -57,
+          -58,
+          -58
+        ]
+      }
+    ]
+  }
+]
