@@ -131,11 +131,9 @@ public class MainActivity extends AppCompatActivity {
                     builder.setMessage("Since location access has not been granted, this app will not be able to track your location");
                     builder.setPositiveButton(android.R.string.ok, null);
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-
                         @Override
                         public void onDismiss(DialogInterface dialog) {
                         }
-
                     });
                     builder.show();
                 }

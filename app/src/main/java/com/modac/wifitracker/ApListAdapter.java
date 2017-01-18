@@ -183,7 +183,7 @@ public class ApListAdapter extends BaseAdapter {
     }
 
     private void appendData(int entryIndex, long x, int y) {
-        graphSeriesList.get(entryIndex).appendData(new DataPoint(x, y), false, 1000);
+        graphSeriesList.get(entryIndex).appendData(new DataPoint(x, y), false, 100000           );
         ((GraphView) viewList.get(entryIndex).findViewById(R.id.rssiGraphView)).getViewport().setMaxX(x);
     }
 
@@ -198,9 +198,9 @@ public class ApListAdapter extends BaseAdapter {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(rnf==null || ignoreChange) return;
-            rnf.trackRecord.setApActive(ap, isChecked);
-            Log.d("CheckedboxListener", ap.getBSSID() + " " + isChecked);
+            //if(rnf==null || ignoreChange) return;
+            //rnf.trackRecord.setApActive(ap, isChecked);
+            //Log.d("CheckedboxListener", ap.getBSSID() + " " + isChecked);
         }
     }
 }

@@ -67,25 +67,25 @@ public class RecordNewFragment extends Fragment {
         public void onClick(View v) {
             TrackManager trackManager = TrackManager.getInstance();
             if(!recording){
-                try {
-                    trackRecord = trackManager.startRecord();
+                //try {
+                    //trackRecord = trackManager.startRecord();
                     toActive();
                     recording = true;
 
                     checkboxEnabled=true;
                     ApListAdapter adapter = (ApListAdapter) ((ListView) aplF.getView().findViewById(R.id.apListView)).getAdapter();
                     adapter.notifyDataSetChanged();
-                } catch (AlreadyTrackingException e) {
+                //} catch (AlreadyTrackingException e) {
                     //noinspection ConstantConditions
-                    Snackbar.make(getView(), "Already tracking", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
+                //    Snackbar.make(getView(), "Already tracking", Snackbar.LENGTH_LONG)
+                //            .setAction("Action", null).show();
+                //}
 
             } else {
                 toInactive();
-                trackManager.stopRecord();
+                //trackManager.stopRecord();
                 recording = false;
-                trackManager.addPositionTrackRecord(new PositionTrackRecord(positionTextField.getText().toString(), trackRecord.getWifiApRecords()));
+                //trackManager.addPositionTrackRecord(new PositionTrackRecord(positionTextField.getText().toString(), trackRecord.getWifiApRecords()));
 
                 checkboxEnabled = false;
                 ApListAdapter adapter = (ApListAdapter) ((ListView) aplF.getView().findViewById(R.id.apListView)).getAdapter();
