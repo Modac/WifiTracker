@@ -157,9 +157,9 @@ public class TrackManager {
             Writer w = new FileWriter(new File(activity.getFilesDir(), DEFAULT_RECORDS_FILE));
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(savedRecords, w);
-            Log.d(TAG, gson.toJson(savedRecords));
             w.close();
-            
+
+            Log.d(TAG, gson.toJson(savedRecords));
         } catch (IOException e) {
             e.printStackTrace();
         }

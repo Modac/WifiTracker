@@ -162,6 +162,10 @@ public class ApListAdapter extends BaseAdapter {
             AccessPoint e = AccessPoint.generateOf(scanResult);
             aps.add(e);
             if(apMap.containsKey(e)){
+                if (apMap.get(e)==-1){
+                    Log.d(TAG, e.toString() + ": -1");
+                    notifyDataSetChanged();
+                }
                 appendData(apMap.get(e), timeDiv, WifiUtils.qualityOfdBm(scanResult.level));
             } else {
                 apMap.put(e, -1);
